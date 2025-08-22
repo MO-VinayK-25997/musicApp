@@ -1,0 +1,251 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #ff512f 0%, #dd2476 100%);
+    color: #fff;
+    min-height: 100vh;
+}
+
+.app-header {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 18px 8px 18px;
+    background: linear-gradient(135deg, #ff512f 0%, #dd2476 100%);
+    color: #fff;
+    border-radius: 0 0 24px 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+.app-header .logo {
+    font-size: 2rem;
+}
+
+.app-header .title {
+    font-size: 1.4rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.app-header .profile {
+    font-size: 1.5rem;
+}
+
+.container {
+    max-width: 420px;
+    margin: 0 auto;
+    padding: 24px 8px 120px 8px;
+}
+
+.station-list {
+    list-style: none;
+    padding: 0;
+}
+
+.station {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 18px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.10);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px;
+    transition: background 0.2s, box-shadow 0.2s;
+    position: relative;
+}
+
+.station:hover {
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.station.active {
+    background: #fff;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+}
+
+.station.active .station-name {
+    color: #dd2476;
+}
+
+.station.active .play-btn {
+    background: #dd2476;
+    color: #fff;
+}
+
+.station-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.station-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.station-desc {
+    font-size: 0.95rem;
+    color: #ffe3e3;
+}
+
+.play-btn {
+    background: linear-gradient(135deg, #ff512f 0%, #dd2476 100%);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+    transition: background 0.2s;
+}
+
+.play-btn:active {
+    background: #dd2476;
+}
+
+.bottom-menu {
+    position: fixed;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 420px;
+    background: #fff;
+    box-shadow: 0 -2px 16px rgba(0,0,0,0.10);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 8px 0;
+    z-index: 200;
+    border-radius: 18px 18px 0 0;
+}
+
+.menu-btn {
+    background: none;
+    border: none;
+    color: #dd2476;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 8px 6px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.menu-btn.active, .menu-btn:active {
+    background: linear-gradient(135deg, #ff512f 0%, #dd2476 100%);
+    color: #fff;
+}
+
+.player-bar {
+    position: fixed;
+    left: 50%;
+    bottom: 60px;
+    transform: translateX(-50%);
+    width: 95%;
+    max-width: 420px;
+    background: linear-gradient(135deg, #ff512f 0%, #dd2476 100%);
+    color: #fff;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 100;
+    border-radius: 32px;
+    min-height: 80px;
+    transition: box-shadow 0.2s;
+}
+
+.player-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    margin-right: 18px;
+}
+
+.player-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.player-desc {
+    font-size: 1rem;
+    color: #ffe3e3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.player-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.player-btn {
+    background: #fff;
+    color: #dd2476;
+    border: none;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    font-size: 2.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+    transition: background 0.2s, color 0.2s;
+}
+
+.player-btn:active {
+    background: #ffe3e3;
+    color: #ff512f;
+}
+
+@media (max-width: 500px) {
+    .container {
+        padding: 8px 2px 120px 2px;
+    }
+
+    .app-header {
+        padding: 12px 8px 6px 8px;
+    }
+
+    .app-header .title {
+        font-size: 1.1rem;
+    }
+
+    .player-bar {
+        padding: 14px 16px;
+        min-height: 70px;
+        bottom: 56px;
+        width: 98%;
+    }
+
+    .player-btn {
+        width: 48px;
+        height: 48px;
+        font-size: 1.7rem;
+    }
+
+    .menu-btn {
+        font-size: 0.8rem;
+        padding: 6px 4px;
+    }
+}
