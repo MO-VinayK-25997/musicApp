@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Indian Radio Player</title>
+	<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+	<style>
+		body {
+			margin: 0;
+			font-family: 'Segoe UI', Arial, sans-serif;
+			background: linear-gradient(135deg, #ff512f 0%, #dd2476 100%);
+			color: #fff;
+			min-height: 100vh;
+		}
+		.container {
+			max-width: 420px;
+			margin: 0 auto;
+			padding: 24px 8px 100px 8px;
+		}
+		.header {
+			text-align: center;
+			font-size: 2.2rem;
+			font-weight: bold;
+			margin-bottom: 24px;
+			letter-spacing: 1px;
+			color: #fff;
+			text-shadow: 0 2px 8px rgba(0,0,0,0.12);
+		}
+		.station-list {
+			list-style: none;
+			padding: 0;
+		}
+		.station {
+			background: rgba(255,255,255,0.12);
+			border-radius: 18px;
+			box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+			margin-bottom: 18px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 18px;
+			transition: background 0.2s;
+		}
+		.station:hover {
+			background: rgba(255,255,255,0.18);
+		}
+		.station-info {
+			display: flex;
+			flex-direction: column;
+		}
+		.station-name {
+			font-size: 1.2rem;
+			font-weight: 600;
+			color: #fff;
+		}
+		.station-desc {
+			font-size: 0.95rem;
+			color: #ffe3e3;
+		}
+		.play-btn {
+			background: linear-gradient(135deg, #ff512f 0%, #dd2476 100%);
+			color: #fff;
+			border: none;
+			border-radius: 50%;
+			width: 48px;
+			height: 48px;
+			font-size: 1.5rem;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+			transition: background 0.2s;
+		}
+		.play-btn:active {
+			background: #dd2476;
+		}
+		audio {
+			display: none;
+		}
+		.player-bar {
+			position: fixed;
+			left: 50%;
+			bottom: 24px;
+			transform: translateX(-50%);
+			width: 95vw;
+			max-width: 420px;
+			background: #fff;
+			color: #222;
+			box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+			padding: 18px 24px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			z-index: 100;
+			border-radius: 32px;
+			min-height: 72px;
+			transition: box-shadow 0.2s;
+		}
+		.player-info {
+			display: flex;
+			flex-direction: column;
+			flex: 1;
+			min-width: 0;
+			margin-right: 18px;
+		}
+		.player-name {
+			font-size: 1.1rem;
+			font-weight: 700;
+			color: #222;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		.player-desc {
+			font-size: 0.95rem;
+			color: #666;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		.player-controls {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+		}
+		.player-btn {
+			background: linear-gradient(135deg, #ff512f 0%, #dd2476 100%);
+			color: #fff;
+			border: none;
+			border-radius: 50%;
+			width: 54px;
+			height: 54px;
+			font-size: 2rem;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+			transition: background 0.2s, color 0.2s;
+		}
+		.player-btn:active {
+			background: #ffe3e3;
+			color: #ff512f;
+		}
+		@media (max-width: 500px) {
+			.container {
+				padding: 8px 2px 110px 2px;
+			}
+			.header {
+				font-size: 1.5rem;
+			}
+			.player-bar {
+				padding: 12px 8px;
+				min-height: 60px;
+				left: 50%;
+				bottom: 12px;
+				width: 98vw;
+				max-width: 98vw;
+			}
+			.player-btn {
+				width: 44px;
+				height: 44px;
+				font-size: 1.5rem;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+	<div class="header">Indian Radio Player</div>
+	<div id="infoMessage" style="text-align:center;color:#ffe3e3;font-size:1rem;margin-bottom:10px;display:none;"></div>
+		<ul class="station-list">
+			<li class="station">
+				<div class="station-info">
+					<span class="station-name">AIR FM Gold</span>
+					<span class="station-desc">All India Radio - Hindi, News, Music</span>
+				</div>
+				<button class="play-btn" onclick="playStation('AIR FM Gold', 'All India Radio - Hindi, News, Music', 'https://air.pc.cdn.bitgravity.com/air/live/pbaudio001/playlist.m3u8')">&#9654;</button>
+			</li>
+			<li class="station">
+				<div class="station-info">
+					<span class="station-name">Radio City Hindi</span>
+					<span class="station-desc">Bollywood Hits & Hindi Songs</span>
+				</div>
+				<button class="play-btn" onclick="playStation('Radio City Hindi', 'Bollywood Hits & Hindi Songs', 'https://prclive1.listenon.in/RadioCityHindi')">&#9654;</button>
+			</li>
+			<li class="station">
+				<div class="station-info">
+					<span class="station-name">Hungama Bollywood</span>
+					<span class="station-desc">Bollywood Music 24x7</span>
+				</div>
+				<button class="play-btn" onclick="playStation('Hungama Bollywood', 'Bollywood Music 24x7', 'https://hungama-radiocity-live.hungama.com/radiocitybollywood')">&#9654;</button>
+			</li>
+			<li class="station">
+				<div class="station-info">
+					<span class="station-name">Mirchi 98.3 FM</span>
+					<span class="station-desc">Bollywood, Hindi, Talk</span>
+				</div>
+				<button class="play-btn" onclick="playStation('Mirchi 98.3 FM', 'Bollywood, Hindi, Talk', 'https://playerservices.streamtheworld.com/api/livestream-redirect/MIRCHI.mp3')">&#9654;</button>
+			</li>
+		</ul>
+	</div>
+	<div class="player-bar" id="playerBar" style="display:none;">
+		<div class="player-info">
+			<span class="player-name" id="playerName"></span>
+			<span class="player-desc" id="playerDesc"></span>
+		</div>
+		<div class="player-controls">
+			<button class="player-btn" id="pauseBtn" onclick="pauseCurrent()">&#10073;&#10073;</button>
+			<button class="player-btn" id="playBtn" onclick="resumeCurrent()" style="display:none;">&#9654;</button>
+		</div>
+		<audio id="mainAudio" style="display:none;"></audio>
+	</div>
+	<script>
+		let currentHls = null;
+		function showInfo(msg) {
+			const info = document.getElementById('infoMessage');
+			info.textContent = msg;
+			info.style.display = 'block';
+		}
+		function hideInfo() {
+			document.getElementById('infoMessage').style.display = 'none';
+		}
+		function playStation(name, desc, streamUrl) {
+			hideInfo();
+			const audio = document.getElementById('mainAudio');
+			if (currentHls) {
+				currentHls.destroy();
+				currentHls = null;
+			}
+			audio.pause();
+			audio.src = '';
+			document.getElementById('playerBar').style.display = 'flex';
+			document.getElementById('playerName').textContent = name;
+			document.getElementById('playerDesc').textContent = desc;
+			document.getElementById('pauseBtn').style.display = '';
+			document.getElementById('playBtn').style.display = 'none';
+			if (streamUrl.endsWith('.m3u8')) {
+				if (Hls.isSupported()) {
+					currentHls = new Hls();
+					currentHls.loadSource(streamUrl);
+					currentHls.attachMedia(audio);
+					currentHls.on(Hls.Events.MANIFEST_PARSED, function() {
+						audio.play().catch(() => {
+							showInfo('Playback failed. Please click the play button again or try a different browser.');
+						});
+					});
+					currentHls.on(Hls.Events.ERROR, function(event, data) {
+						showInfo('Playback error. This station may not be supported in your browser or is blocked by CORS.');
+					});
+				} else if (audio.canPlayType('application/vnd.apple.mpegurl')) {
+					audio.src = streamUrl;
+					audio.play().catch(() => {
+						showInfo('Playback failed. Please click the play button again or try a different browser.');
+					});
+				} else {
+					showInfo('HLS stream not supported in this browser. Try Chrome or Edge.');
+				}
+			} else {
+				audio.src = streamUrl;
+				audio.play().catch(() => {
+					showInfo('Playback failed. This station may not be supported in your browser or is blocked by CORS.');
+				});
+			}
+		}
+		function pauseCurrent() {
+			const audio = document.getElementById('mainAudio');
+			audio.pause();
+			document.getElementById('pauseBtn').style.display = 'none';
+			document.getElementById('playBtn').style.display = '';
+		}
+		function resumeCurrent() {
+			const audio = document.getElementById('mainAudio');
+			audio.play().catch(() => {
+				showInfo('Playback failed. Please click the play button again or try a different browser.');
+			});
+			document.getElementById('pauseBtn').style.display = '';
+			document.getElementById('playBtn').style.display = 'none';
+		}
+		document.getElementById('mainAudio').addEventListener('ended', () => {
+			document.getElementById('playerBar').style.display = 'none';
+		});
+		document.getElementById('mainAudio').addEventListener('error', () => {
+			showInfo('Playback error. This station may not be supported in your browser or is blocked by CORS.');
+		});
+		// Show autoplay guidance on page load
+		document.addEventListener('DOMContentLoaded', () => {
+			showInfo('Tip: If playback does not start, click the play button again or try a different browser (Chrome/Edge recommended).');
+		});
+	</script>
+</body>
+</html>
